@@ -17,7 +17,7 @@ public class Graph extends JFrame {
         // Create chart
         JFreeChart chart = ChartFactory.createLineChart(
                 "New entry", // Chart title
-                "Time", // X-Axis Label
+                "Time (s)", // X-Axis Label
                 "Values", // Y-Axis Label
                 dataset
         );
@@ -29,7 +29,6 @@ public class Graph extends JFrame {
     private DefaultCategoryDataset createDataset() {
 
         String series1 = "Heart rate";
-        String series2 = "Elevation gain";
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
@@ -40,14 +39,6 @@ public class Graph extends JFrame {
         dataset.addValue(240, series1, "2016-12-23");
         dataset.addValue(195, series1, "2016-12-24");
         dataset.addValue(245, series1, "2016-12-25");
-
-        dataset.addValue(150, series2, "2016-12-19");
-        dataset.addValue(130, series2, "2016-12-20");
-        dataset.addValue(95, series2, "2016-12-21");
-        dataset.addValue(195, series2, "2016-12-22");
-        dataset.addValue(200, series2, "2016-12-23");
-        dataset.addValue(180, series2, "2016-12-24");
-        dataset.addValue(230, series2, "2016-12-25");
 
         return dataset;
     }

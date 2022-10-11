@@ -235,6 +235,9 @@ public class AccessFile {
             printValues(mesg, RecordMesg.CadenceFieldNum);
             printValues(mesg, RecordMesg.DistanceFieldNum);
             printValues(mesg, RecordMesg.SpeedFieldNum);
+            printValues(mesg, RecordMesg.AltitudeFieldNum);
+            printValues(mesg, RecordMesg.TemperatureFieldNum);
+            printValues(mesg, RecordMesg.TimestampFieldNum);
 
             printDeveloperData(mesg);
         }
@@ -296,6 +299,7 @@ public class AccessFile {
                 }
             }
         }
+
     }
 }
 
