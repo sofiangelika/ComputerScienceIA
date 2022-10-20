@@ -1,6 +1,9 @@
 package com.company;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 
@@ -14,15 +17,19 @@ public class UserInterface {
         Color purple = new Color(218,202,251);
 
         JButton newEntryButton = new JButton("Add new entry");
-        newEntryButton.setBackground(purple); //issue
+        newEntryButton.setBackground(purple);
+        newEntryButton.setOpaque(true);
         newEntryButton.setLocation(100,190);
         newEntryButton.setSize(190,60);
+        newEntryButton.setBorderPainted(false);
         pane.add(newEntryButton);
 
         JButton editGoalsButton = new JButton("Edit goals");
-        editGoalsButton.setBackground(purple); //issue
+        editGoalsButton.setBackground(purple);
+        editGoalsButton.setOpaque(true);
         editGoalsButton.setLocation(100,290);
         editGoalsButton.setSize(190,60);
+        editGoalsButton.setBorderPainted(false);
         pane.add(editGoalsButton);
 
         JProgressBar progressBar1 = new JProgressBar(0);
@@ -55,14 +62,50 @@ public class UserInterface {
         dateLabel.setBounds(50,50,400,70);
         pane.add(dateLabel);
 
-        JTextArea textArea = new JTextArea(20, 20);
-        JScrollPane scrollableTextArea = new JScrollPane(textArea);
+        JPanel purple_side_panel = new JPanel();
+        purple_side_panel.setOpaque(true);
+        pane.add(purple_side_panel);
+        JScrollPane purple_side_panel_scroll = new JScrollPane(purple_side_panel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        scrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollableTextArea.setBounds(1000,0,300,1300);
-        scrollableTextArea.setBackground(purple); //issue
 
-        pane.add(scrollableTextArea);
+        purple_side_panel_scroll.setBounds(1000,0,300,1300);
+        purple_side_panel_scroll.setBackground(purple); //issue
+
+        pane.add(purple_side_panel_scroll);
+
+        JLabel past_entry = new JLabel();
+        past_entry.setBounds(1000, 0, 300, 100);
+        Border white_border = BorderFactory.createLineBorder(Color.black, 2);
+        past_entry.setBorder(white_border);
+        past_entry.setOpaque(true);
+
+        past_entry.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
 
         frame1.setSize(1300, 700);
         frame1.setVisible(true);

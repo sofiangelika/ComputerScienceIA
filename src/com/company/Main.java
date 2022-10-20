@@ -13,6 +13,7 @@ public class Main {
         SwingUtilities.invokeLater(() -> {ui = new UserInterface();});
         DataHandler dataHandler = new DataHandler();
 
+
     }
 
 }
