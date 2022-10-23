@@ -99,10 +99,8 @@ public class AccessFile {
 
         @Override
         public void onMesg(DeviceInfoMesg mesg) {
-            System.out.println("Device info:");
 
             if (mesg.getTimestamp() != null) {
-                System.out.print("   Timestamp: ");
                 System.out.println(mesg.getTimestamp());
             }
 

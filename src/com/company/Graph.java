@@ -1,19 +1,48 @@
 package com.company;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-public class Graph extends JFrame {
+import java.awt.*;
 
-    public Graph(String title) {
-        super(title);
-        // Create dataset
-        DefaultCategoryDataset dataset = createDataset();
+public class Graph {
+
+    public Graph() {
+        JFrame entry = new JFrame("Entry");
+        entry.setLayout(null);
+        entry.setSize(1300, 700);
+        Color purple = new Color(218,202,251);
+        DefaultCategoryDataset dataset1 = createDataset();
+        DefaultCategoryDataset dataset2 = createDataset2();
+        ChartPanel panel1 = makeGraph(dataset1);
+        ChartPanel panel2 = makeGraph(dataset2);
+
+        panel1.setSize(600,400);
+        panel2.setSize(600,400);
+        panel1.setLocation(5,5);
+        panel2.setLocation(5,500);
+
+        JPanel purple_side_panel = new JPanel();
+        purple_side_panel.setPreferredSize(new java.awt.Dimension(1300, 3000));
+        purple_side_panel.setLayout(null);
+        purple_side_panel.setBackground(purple);
+        JScrollPane purple_side_panel_scroll = new JScrollPane(purple_side_panel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        purple_side_panel_scroll.setSize(1300, 700);
+
+        entry.add(purple_side_panel_scroll);
+
+        purple_side_panel.add(panel1);
+        purple_side_panel.add(panel2);
+
+        entry.setVisible(true);
+    }
+
+    public ChartPanel makeGraph(DefaultCategoryDataset dataset) {
         // Create chart
         JFreeChart chart = ChartFactory.createLineChart(
                 "New entry", // Chart title
@@ -22,9 +51,9 @@ public class Graph extends JFrame {
                 dataset
         );
 
-        ChartPanel panel = new ChartPanel(chart);
-        setContentPane(panel);
+        return new ChartPanel(chart);
     }
+
 
     private DefaultCategoryDataset createDataset() {
 
@@ -43,14 +72,21 @@ public class Graph extends JFrame {
         return dataset;
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            Graph example = new Graph("New entry");
-            example.setAlwaysOnTop(true);
-            example.pack();
-            example.setSize(1300, 700);
-            example.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            example.setVisible(true);
-        });
+     private DefaultCategoryDataset createDataset2() {
+
+        String series1 = "Carrots";
+
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        dataset.addValue(100, series1, "2016-12-19");
+        dataset.addValue(50, series1, "2016-12-20");
+        dataset.addValue(10, series1, "2016-12-21");
+        dataset.addValue(10, series1, "2016-12-22");
+        dataset.addValue(20, series1, "2016-12-23");
+        dataset.addValue(195, series1, "2016-12-24");
+        dataset.addValue(205, series1, "2016-12-25");
+
+        return dataset;
     }
+
 }

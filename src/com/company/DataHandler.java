@@ -6,12 +6,17 @@ import java.util.Arrays;
 public class DataHandler {
 
     public static void main(String[] args) {
+        //heart rate 0; cadence 1; distance 2; speed 3; altitude 4; temp 5; time 6
         String stringPath = "/Users/sofpo/Desktop/cs_IA/the_one_that_has_it_all.fit";
-        getData(stringPath);
+        decodeFile(stringPath);
+        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+        System.out.println(Arrays.deepToString(getData(stringPath))); //delete this at some point
+
 
     }
 
-    static int getRecordCount(String fileName) {
+
+    static void decodeFile(String fileName) {
         //put fit file contents in text file
 
         PrintStream fileStream = null;
@@ -23,11 +28,15 @@ public class DataHandler {
         }
         System.setOut(fileStream);
         AccessFile accessFile = new AccessFile(fileName);
-        //heart rate 0; cadence 1; distance 2; speed 3; altitude 4; temp 5; time 6
+
+    }
+
+    static int getRecordCount(String fileName) {
 
         //read created text data file
         int size = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader("data/text.txt"))) {
+
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.contains("Record:")) {
@@ -43,9 +52,8 @@ public class DataHandler {
 
     static double[][] getData(String fileName) {
         int recordCount = getRecordCount(fileName);
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("data/text.txt"))) {
             double[][] data = new double[7][recordCount]; //create 2d array for fit file data
-
             int rows = 0;
             String line2;
             while ((line2 = reader.readLine()) != null) {
@@ -56,6 +64,9 @@ public class DataHandler {
                     rows++;
                 }
             }
+            File file = new File("data/text.txt");
+            file.delete();
+
             return data;
 
         } catch (IOException e) {

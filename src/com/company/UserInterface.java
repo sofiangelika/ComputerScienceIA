@@ -63,22 +63,21 @@ public class UserInterface {
         pane.add(dateLabel);
 
         JPanel purple_side_panel = new JPanel();
-        purple_side_panel.setOpaque(true);
-        pane.add(purple_side_panel);
-        JScrollPane purple_side_panel_scroll = new JScrollPane(purple_side_panel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+        purple_side_panel.setBackground(purple);
+        //purple_side_panel.setOpaque(true);
+        JScrollPane purple_side_panel_scroll = new JScrollPane(purple_side_panel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
 
         purple_side_panel_scroll.setBounds(1000,0,300,1300);
-        purple_side_panel_scroll.setBackground(purple); //issue
-
         pane.add(purple_side_panel_scroll);
 
         JLabel past_entry = new JLabel();
         past_entry.setBounds(1000, 0, 300, 100);
-        Border white_border = BorderFactory.createLineBorder(Color.black, 2);
+        Border white_border = BorderFactory.createLineBorder(Color.white, 2);
         past_entry.setBorder(white_border);
         past_entry.setOpaque(true);
+        purple_side_panel.add(past_entry);
 
         past_entry.addMouseListener(new MouseListener() {
             @Override
