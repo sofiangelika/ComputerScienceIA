@@ -1,24 +1,23 @@
 package com.company;
 
 import java.io.*;
-import java.util.Arrays;
 
 public class DataHandler {
 
-    public static void main(String[] args) {
-        //heart rate 0; cadence 1; distance 2; speed 3; altitude 4; temp 5; time 6
-        String stringPath = "/Users/sofpo/Desktop/cs_IA/the_one_that_has_it_all.fit";
-        decodeFile(stringPath);
-        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
-        System.out.println(Arrays.deepToString(getData(stringPath))); //delete this at some point
+     public String getDate() {
 
+        String date = "";
+        try (BufferedReader reader = new BufferedReader(new FileReader("data/text.txt"))) {
+            date = reader.readLine();
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
-
-    static void decodeFile(String fileName) {
+     void decodeFile(String fileName) {
         //put fit file contents in text file
-
         PrintStream fileStream = null;
         try {
             System.out.println();
@@ -28,11 +27,11 @@ public class DataHandler {
         }
         System.setOut(fileStream);
         AccessFile accessFile = new AccessFile(fileName);
+        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
 
     }
 
-    static int getRecordCount(String fileName) {
-
+     int getRecordCount() {
         //read created text data file
         int size = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader("data/text.txt"))) {
@@ -47,25 +46,33 @@ public class DataHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return size;
     }
 
-    static double[][] getData(String fileName) {
-        int recordCount = getRecordCount(fileName);
+     public double[][] getData() {
+        int recordCount = getRecordCount();
         try (BufferedReader reader = new BufferedReader(new FileReader("data/text.txt"))) {
             double[][] data = new double[7][recordCount]; //create 2d array for fit file data
             int rows = 0;
             String line2;
+            double starting_time = 0.0;
             while ((line2 = reader.readLine()) != null) {
                 if (line2.contains("Record:")) {
-                    for (int i = 0; i < 7; i++) {
+                    for (int i = 0; i < 6; i++) {
                         data[i][rows] = Double.parseDouble(reader.readLine());
+                    }
+                    if (starting_time == 0.0) {
+                        starting_time = Double.parseDouble(reader.readLine());
+                        data[6][rows] = 0;
+                    }
+                    else {
+                        data[6][rows] = Double.parseDouble(reader.readLine()) - starting_time;
                     }
                     rows++;
                 }
             }
-            File file = new File("data/text.txt");
-            file.delete();
+
 
             return data;
 

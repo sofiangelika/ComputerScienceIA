@@ -1,92 +1,60 @@
 package com.company;
 
 import javax.swing.*;
-
+import javax.swing.border.Border;
+import java.awt.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import java.awt.*;
+public class Graph{
 
-public class Graph {
-
-    public Graph() {
-        JFrame entry = new JFrame("Entry");
-        entry.setLayout(null);
-        entry.setSize(1300, 700);
-        Color purple = new Color(218,202,251);
-        DefaultCategoryDataset dataset1 = createDataset();
-        DefaultCategoryDataset dataset2 = createDataset2();
-        ChartPanel panel1 = makeGraph(dataset1);
-        ChartPanel panel2 = makeGraph(dataset2);
-
-        panel1.setSize(600,400);
-        panel2.setSize(600,400);
-        panel1.setLocation(5,5);
-        panel2.setLocation(5,500);
-
-        JPanel purple_side_panel = new JPanel();
-        purple_side_panel.setPreferredSize(new java.awt.Dimension(1300, 3000));
-        purple_side_panel.setLayout(null);
-        purple_side_panel.setBackground(purple);
-        JScrollPane purple_side_panel_scroll = new JScrollPane(purple_side_panel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        purple_side_panel_scroll.setSize(1300, 700);
-
-        entry.add(purple_side_panel_scroll);
-
-        purple_side_panel.add(panel1);
-        purple_side_panel.add(panel2);
-
-        entry.setVisible(true);
-    }
-
-    public ChartPanel makeGraph(DefaultCategoryDataset dataset) {
+    static public ChartPanel makeGraph(int i, Entry entry) {
         // Create chart
-        JFreeChart chart = ChartFactory.createLineChart(
-                "New entry", // Chart title
-                "Time (s)", // X-Axis Label
-                "Values", // Y-Axis Label
-                dataset
-        );
+        Entry entryData = entry; //get entry object (entryData) from entry manager
+        double[][] data = entryData.getData();
+
+        JFreeChart chart;
+            String variable = findString(i);
+            DefaultCategoryDataset dataset = createDataset(data, i, variable);
+
+            chart = ChartFactory.createLineChart(
+                    variable, // Chart title
+                    "Time (s)", // X-Axis Label
+                    "Values", // Y-Axis Label
+                    dataset
+            );
+
 
         return new ChartPanel(chart);
     }
 
 
-    private DefaultCategoryDataset createDataset() {
-
-        String series1 = "Heart rate";
+    static private DefaultCategoryDataset createDataset(double[][] data, int variable, String type) {
+        //heart rate 0; cadence 1; distance 2; speed 3; altitude 4; temp 5; time 6
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        dataset.addValue(200, series1, "2016-12-19");
-        dataset.addValue(150, series1, "2016-12-20");
-        dataset.addValue(100, series1, "2016-12-21");
-        dataset.addValue(210, series1, "2016-12-22");
-        dataset.addValue(240, series1, "2016-12-23");
-        dataset.addValue(195, series1, "2016-12-24");
-        dataset.addValue(245, series1, "2016-12-25");
+        for (int i = 0; i < data[0].length; i++) {
+            Number number = data[variable][i]; //must make into number or else you get an ambiguous method call error
+            dataset.addValue(number, type, data[6][i]); //the parameter of addValue is a Number
+        }
 
         return dataset;
     }
 
-     private DefaultCategoryDataset createDataset2() {
-
-        String series1 = "Carrots";
-
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
-        dataset.addValue(100, series1, "2016-12-19");
-        dataset.addValue(50, series1, "2016-12-20");
-        dataset.addValue(10, series1, "2016-12-21");
-        dataset.addValue(10, series1, "2016-12-22");
-        dataset.addValue(20, series1, "2016-12-23");
-        dataset.addValue(195, series1, "2016-12-24");
-        dataset.addValue(205, series1, "2016-12-25");
-
-        return dataset;
+    static String findString(int variable) {
+        String type = switch (variable) {
+            case 0 -> "heart rate";
+            case 1 -> "cadence";
+            case 2 -> "distance";
+            case 3 -> "speed";
+            case 4 -> "altitude";
+            case 5 -> "temperature";
+            default -> "";
+        };
+        return type;
     }
 
 }

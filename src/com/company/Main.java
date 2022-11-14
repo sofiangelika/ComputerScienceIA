@@ -12,7 +12,6 @@ public class Main {
     public static void main(String[] args) {
 
         SwingUtilities.invokeLater(() -> {ui = new UserInterface();});
-        SwingUtilities.invokeLater(() -> {graph = new Graph();});
         DataHandler dataHandler = new DataHandler();
 
 
