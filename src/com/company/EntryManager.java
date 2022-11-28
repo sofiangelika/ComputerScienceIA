@@ -9,40 +9,48 @@ public class EntryManager {
     public ArrayList<String[]> headers = new ArrayList<>();
     //heart rate 0; cadence 1; distance 2; speed 3; altitude 4; temp 5; time 6
 
+    public Entry getPastEntry(int i) {
+        //Deserializing the entry arrayList
+        try {
+            String fileSer = "data/entry_data.xml";
+            FileInputStream file = new FileInputStream(fileSer);
+            ObjectInputStream in = new ObjectInputStream(file);
+
+            // Method for deserialization of object
+            ArrayList<Entry> arrayList = (ArrayList<Entry>)in.readObject();
+            Entry pastEntry = arrayList.get(i);
+
+            in.close();
+            file.close();
+
+            return pastEntry;
+        }
+
+        catch(IOException ex) {
+            System.out.println("IOException is caught");
+        }
+
+        catch(ClassNotFoundException ex) {
+            System.out.println("ClassNotFoundException is caught");
+        }
+        return null;
+    }
+
     public Entry makeNewEntry(String fileName) {
         DataHandler dataHandler = new DataHandler();
         dataHandler.decodeFile(fileName);
+
+        //pass entry to GoalManager
+        GoalManager goalManager = new GoalManager();
+        goalManager.updateGoals(dataHandler.getData());
+
         Entry entry = new Entry(dataHandler.getDate(), dataHandler.getData());
+
+        //delete file that DataHandler uses
         File tempFile = new File("data/text.txt");
         tempFile.delete();
 
         String fileSer = "data/entry_data.xml";
-
-        //this is serializing an empty entry array
-        /*
-        try
-        {
-            //Saving of object in a file
-            FileOutputStream file = new FileOutputStream(fileSer);
-            ObjectOutputStream out = new ObjectOutputStream(file);
-
-            ArrayList<Entry> arrayList = new ArrayList<>();
-            // Method for serialization of object
-            out.writeObject(arrayList);
-
-            out.close();
-            file.close();
-
-            System.out.println("Object has been serialized");
-
-        }
-
-        catch(IOException ex)
-        {
-            System.out.println("IOException is caught");
-        }
-
-         */
 
         //This is deserializing and serializing the file with entry objects when making a new entry
         try {

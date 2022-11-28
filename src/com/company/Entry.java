@@ -1,6 +1,7 @@
 package com.company;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 
 public class Entry implements Serializable {
 
@@ -24,8 +25,10 @@ public class Entry implements Serializable {
     //return type is string because it's easier to use for labels and stuff
     public String getDistanceTravelled() {
         int colLength = data[0].length;
-        double distanceTravelled = data[2][colLength - 1];
-        return String.valueOf(distanceTravelled);
+        double distanceTravelled = data[2][colLength - 1] / 1000;
+        DecimalFormat df = new DecimalFormat("###.#");
+        String distanceTravelledKm = df.format(distanceTravelled);
+        return ("Distance: " + distanceTravelledKm + " km");
     }
 
     public String getTimeElapsed() {
@@ -35,7 +38,7 @@ public class Entry implements Serializable {
         double seconds = endTime - startTime;
         int hours = (int)seconds / 3600;
         int minutes = (int)(seconds % 3600) / 60;
-        return (hours + " h" + minutes + " min");
+        return (hours + " h " + minutes + " min");
 
     }
 
