@@ -27,14 +27,15 @@ public class Goal implements Serializable {
         return progressValue;
     }
 
-    boolean hasMonthPassed(Date currentDate) {
+    public Date getDateStarted() {
+        return dateStarted;
+    }
+
+    boolean hasMonthPassed(Date currentDate, Date dateStarted) {
         long differenceInTime = currentDate.getTime() - dateStarted.getTime();
         long differenceInDays = (differenceInTime / (1000 * 60 * 60 * 24)) % 365;
         return differenceInDays > 30.0;
     }
 
-    public void setDateStarted(Date dateStarted) {
-        this.dateStarted = dateStarted;
-    }
 
 }

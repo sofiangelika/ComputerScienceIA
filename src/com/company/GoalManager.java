@@ -7,6 +7,7 @@ public class GoalManager {
     public Goal[] goals = new Goal[4];
 
     void serializeGoals() {
+
         try {
             //Saving of object in a file
             FileOutputStream file = new FileOutputStream("data/goals.xml");

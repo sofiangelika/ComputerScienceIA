@@ -10,7 +10,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/FitSDKRelease_21.84.00/java/fit.jar!/" />
+          <root url="jar://$MODULE_DIR$/jars/fit.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -19,7 +19,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/jfreechart-1.5.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/jars/jfreechart-1.5.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

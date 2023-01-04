@@ -4,10 +4,7 @@ import org.jfree.chart.ChartPanel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -15,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class UserInterface {
 
@@ -31,6 +29,7 @@ public class UserInterface {
         Color purple = new Color(218, 202, 251);
         Color green = Color.decode("#72bb53");
         Border greenBorder = BorderFactory.createLineBorder(green, 25);
+        Color darkPurple = Color.decode("#8b51f5");
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("EEE dd. MMM yyyy");
         LocalDateTime now = LocalDateTime.now();
@@ -96,6 +95,7 @@ public class UserInterface {
         pane.add(firstPanel, BorderLayout.LINE_START);
 
         GoalManager goalManager = new GoalManager();
+
         goalManager.deSerializeGoals();
 
         DistanceGoal distanceGoal = (DistanceGoal) goalManager.goals[0];
@@ -198,6 +198,85 @@ public class UserInterface {
             }
         }
         pane.add(purple_side_panel_scroll, BorderLayout.LINE_END);
+
+        Date dateStarted = distanceGoal.getDateStarted();
+
+        if (distanceGoal.hasMonthPassed(new Date(), dateStarted)) {
+            System.out.println("a month has passed");
+            JFrame popUpFrame = new JFrame();
+            popUpFrame.setSize(400, 300);
+            popUpFrame.setBackground(purple);
+
+            JPanel popUpPanel = new JPanel();
+            popUpPanel.setBackground(purple);
+            popUpPanel.setSize(400, 300);
+
+            popUpFrame.add(popUpPanel);
+
+            JLabel popUpLabel = new JLabel("<html> A month has passed! <br> Would you like to change the difficulty of your goals? </html>");
+            popUpPanel.add(popUpLabel);
+            popUpLabel.setForeground(darkPurple);
+
+            JButton popUpButton1 = new JButton();
+            JButton popUpButton2 = new JButton();
+            JButton popUpButton3 = new JButton();
+
+            popUpButton1.setBackground(green);
+            popUpButton1.setOpaque(true);
+            popUpButton1.setText("Easy");
+            popUpButton1.setBorderPainted(false);
+            popUpButton1.setForeground(Color.white);
+
+            popUpButton2.setBackground(green);
+            popUpButton2.setOpaque(true);
+            popUpButton2.setText("Intermediate");
+            popUpButton2.setBorderPainted(false);
+            popUpButton2.setForeground(Color.white);
+
+            popUpButton3.setBackground(green);
+            popUpButton3.setOpaque(true);
+            popUpButton3.setText("Difficult");
+            popUpButton3.setBorderPainted(false);
+            popUpButton3.setForeground(Color.white);
+
+            popUpButton1.addActionListener(e -> {
+                distanceGoal.setDifficultyEasy();
+                elevationGoal.setDifficultyEasy();
+                timeGoal.setDifficultyEasy();
+                setDaysGoal.setDifficultyEasy();
+                goalManager.serializeGoals();
+            });
+
+            popUpButton2.addActionListener(e -> {
+                distanceGoal.setDifficultyIntermediate();
+                elevationGoal.setDifficultyIntermediate();
+                timeGoal.setDifficultyIntermediate();
+                setDaysGoal.setDifficultyIntermediate();
+                goalManager.serializeGoals();
+            });
+
+            popUpButton3.addActionListener(e -> {
+                distanceGoal.setDifficultyChallenging();
+                elevationGoal.setDifficultyChallenging();
+                timeGoal.setDifficultyChallenging();
+                setDaysGoal.setDifficultyChallenging();
+                goalManager.serializeGoals();
+            });
+
+            popUpPanel.add(popUpButton1);
+            popUpPanel.add(popUpButton2);
+            popUpPanel.add(popUpButton3);
+
+            popUpFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+            popUpFrame.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    goalManager.deSerializeGoals();
+                }
+            });
+
+            popUpFrame.setVisible(true);
+            popUpFrame.setAlwaysOnTop(true);
+        }
 
         frame1.setSize(1300, 700);
         frame1.setVisible(true);

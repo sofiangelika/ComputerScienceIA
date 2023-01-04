@@ -3,13 +3,13 @@ package com.company;
 public class ElevationGoal extends Goal{
     //meters
     void setDifficultyEasy() {
-        goalValue = 300;
+        goalValue = 500;
     }
     void setDifficultyIntermediate() {
-        goalValue = 400;
+        goalValue = 1000;
     }
     void setDifficultyChallenging() {
-        goalValue = 500;
+        goalValue = 1500;
     }
 
     String getGoalString() {
