@@ -49,6 +49,8 @@ public class UserInterface {
 
         newEntryButton.setBorder(greenBorder);
 
+
+
         newEntryButton.addActionListener(e -> {
             try {
                 JFileChooser jfc = new JFileChooser();
@@ -56,10 +58,33 @@ public class UserInterface {
                 jfc.setVisible(true);
                 File filename = jfc.getSelectedFile();
                 String str = filename.getPath();
-                EntryManager entryManager = new EntryManager();
-                Entry entryObject = entryManager.makeNewEntry(str);
-                frame1.setVisible(false);
-                makeGraphWindow(entryObject);
+
+                //checking if the file is valid
+                if (!getFileExtension(str).equals("fit")) {
+                    System.out.println("file is checked");
+                    JFrame popUpFrame = new JFrame();
+                    popUpFrame.setSize(400, 300);
+                    popUpFrame.setBackground(purple);
+
+                    JPanel popUpPanel = new JPanel();
+                    popUpPanel.setBackground(purple);
+                    popUpPanel.setSize(400, 300);
+
+                    popUpFrame.add(popUpPanel);
+
+                    JLabel popUpLabel = new JLabel("<html> The file you've chosen is not a fit file. <br> Please choose another file.</html>");
+                    popUpPanel.add(popUpLabel);
+                    popUpLabel.setForeground(darkPurple);
+
+                    popUpFrame.setVisible(true);
+                    popUpFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+                }
+                else {
+                    EntryManager entryManager = new EntryManager();
+                    Entry entryObject = entryManager.makeNewEntry(str);
+                    frame1.setVisible(false);
+                    makeGraphWindow(entryObject);
+                }
             } catch (Exception exception) {
                 System.out.println("Got exception: " + exception);
             }
@@ -552,6 +577,12 @@ public class UserInterface {
 
         editGoalsFrame.add(mainPanel);
         editGoalsFrame.setVisible(true);
+    }
+
+    public static String getFileExtension(String fullName) {
+        String fileName = new File(fullName).getName();
+        int dotIndex = fileName.lastIndexOf('.');
+        return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
     }
 
 }
