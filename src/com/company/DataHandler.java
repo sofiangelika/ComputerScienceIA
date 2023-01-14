@@ -4,7 +4,7 @@ import java.io.*;
 
 public class DataHandler {
 
-     public String getDate() {
+    public String getDate() {
 
         String date = "";
         try (BufferedReader reader = new BufferedReader(new FileReader("data/text.txt"))) {
@@ -16,7 +16,7 @@ public class DataHandler {
         return date;
     }
 
-     void decodeFile(String fileName) {
+    void decodeFile(String fileName) {
         //put fit file contents in text file
         PrintStream fileStream = null;
         try {
@@ -31,7 +31,7 @@ public class DataHandler {
 
     }
 
-     int getRecordCount() {
+    int getRecordCount() {
         //read created text data file
         int size = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader("data/text.txt"))) {
@@ -50,7 +50,7 @@ public class DataHandler {
         return size;
     }
 
-     public double[][] getData() {
+    public double[][] getData() {
         int recordCount = getRecordCount();
         try (BufferedReader reader = new BufferedReader(new FileReader("data/text.txt"))) {
             double[][] data = new double[7][recordCount]; //create 2d array for fit file data
@@ -65,8 +65,7 @@ public class DataHandler {
                     if (starting_time == 0.0) {
                         starting_time = Double.parseDouble(reader.readLine());
                         data[6][rows] = 0;
-                    }
-                    else {
+                    } else {
                         data[6][rows] = Double.parseDouble(reader.readLine()) - starting_time;
                     }
                     rows++;

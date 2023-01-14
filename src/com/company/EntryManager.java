@@ -7,7 +7,6 @@ import java.util.Arrays;
 public class EntryManager {
 
     public ArrayList<String[]> headers = new ArrayList<>();
-    //heart rate 0; cadence 1; distance 2; speed 3; altitude 4; temp 5; time 6
 
     public Entry getPastEntry(int i) {
         //Deserializing the entry arrayList
@@ -25,7 +24,6 @@ public class EntryManager {
 
             return pastEntry;
         }
-
         catch(IOException ex) {
             System.out.println("IOException is caught");
         }
@@ -36,6 +34,7 @@ public class EntryManager {
         return null;
     }
 
+    //heart rate 0; cadence 1; distance 2; speed 3; altitude 4; temp 5; time 6
     public Entry makeNewEntry(String fileName) {
         DataHandler dataHandler = new DataHandler();
         dataHandler.decodeFile(fileName);
@@ -54,12 +53,9 @@ public class EntryManager {
 
         //This is deserializing and serializing the file with entry objects when making a new entry
         try {
-            //DESERIALIZATION (to access array list)
-            // Reading the object from a file
             FileInputStream file = new FileInputStream(fileSer);
             ObjectInputStream in = new ObjectInputStream(file);
 
-            // Method for deserialization of object
             ArrayList<Entry> arrayList = (ArrayList<Entry>) in.readObject();
 
             in.close();
@@ -88,6 +84,8 @@ public class EntryManager {
         } catch (ClassNotFoundException ex) {
             System.out.println("ClassNotFoundException is caught");
         }
+
+        deserializeHeaders();
 
         String[] miniHeadersArray = new String[3];
         miniHeadersArray[0] = entry.getDate();

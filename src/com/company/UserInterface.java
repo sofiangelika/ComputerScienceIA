@@ -40,15 +40,16 @@ public class UserInterface {
         dateLabel.setFont(f1);
         dateLabel.setSize(200, 100);
         dateLabel.setBorder(greenBorder);
+        dateLabel.setForeground(Color.white);
 
         JButton newEntryButton = new JButton("Add new entry");
         newEntryButton.setBackground(purple);
         newEntryButton.setOpaque(true);
         newEntryButton.setMinimumSize(new Dimension(230, 100));
         newEntryButton.setMaximumSize(new Dimension(230, 100));
+        newEntryButton.setForeground(darkPurple);
 
         newEntryButton.setBorder(greenBorder);
-
 
 
         newEntryButton.addActionListener(e -> {
@@ -58,6 +59,7 @@ public class UserInterface {
                 jfc.setVisible(true);
                 File filename = jfc.getSelectedFile();
                 String str = filename.getPath();
+                System.out.println("filename is gotten");
 
                 //checking if the file is valid
                 if (!getFileExtension(str).equals("fit")) {
@@ -78,15 +80,15 @@ public class UserInterface {
 
                     popUpFrame.setVisible(true);
                     popUpFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-                }
-                else {
+                } else {
                     EntryManager entryManager = new EntryManager();
                     Entry entryObject = entryManager.makeNewEntry(str);
+                    System.out.println("Entry manager is called");
                     frame1.setVisible(false);
                     makeGraphWindow(entryObject);
                 }
             } catch (Exception exception) {
-                System.out.println("Got exception: " + exception);
+                System.out.println("Got exception in UI class: " + exception);
             }
 //pass entryObject to Graph? does all ui stuff need to be in the constructor?
             //how to update main window (side panel w/ pass entries), is the constructor only called once?
@@ -97,6 +99,7 @@ public class UserInterface {
         editGoalsButton.setOpaque(true);
         editGoalsButton.setMinimumSize(new Dimension(230, 100));
         editGoalsButton.setMaximumSize(new Dimension(230, 100));
+        editGoalsButton.setForeground(darkPurple);
 
         editGoalsButton.setBorder(greenBorder);
         editGoalsButton.addActionListener(e -> {
@@ -120,7 +123,7 @@ public class UserInterface {
         pane.add(firstPanel, BorderLayout.LINE_START);
 
         GoalManager goalManager = new GoalManager();
-
+        
         goalManager.deSerializeGoals();
 
         DistanceGoal distanceGoal = (DistanceGoal) goalManager.goals[0];
@@ -147,21 +150,25 @@ public class UserInterface {
         goal1.setBackground(purple);
         goal1.setBorder(greenBorder);
         goal1.setOpaque(true);
+        goal1.setForeground(darkPurple);
 
         JLabel goal2 = new JLabel(elevationGoal.getGoalString());
         goal2.setBackground(purple);
         goal2.setBorder(greenBorder);
         goal2.setOpaque(true);
+        goal2.setForeground(darkPurple);
 
         JLabel goal3 = new JLabel(timeGoal.getGoalString());
         goal3.setBackground(purple);
         goal3.setBorder(greenBorder);
         goal3.setOpaque(true);
+        goal3.setForeground(darkPurple);
 
         JLabel goal4 = new JLabel(setDaysGoal.getGoalString());
         goal4.setBackground(purple);
         goal4.setBorder(greenBorder);
         goal4.setOpaque(true);
+        goal4.setForeground(darkPurple);
 
         JPanel secondPanel = new JPanel();
         secondPanel.setLayout(new BorderLayout());
@@ -178,8 +185,6 @@ public class UserInterface {
         secondPanel.add(progressBar3);
         secondPanel.add(goal4);
         secondPanel.add(progressBar4);
-
-        goalManager.serializeGoals();
 
         pane.add(secondPanel, BorderLayout.CENTER);
 
@@ -213,12 +218,11 @@ public class UserInterface {
                     makeGraphWindow(pastEntry);
                 });
 
-
                 Border white_border = BorderFactory.createLineBorder(Color.white, 1);
                 pastEntryButton.setBorder(white_border);
                 pastEntryButton.setBackground(purple);
                 pastEntryButton.setOpaque(true);
-                //past entry add action listener?
+
                 thirdPanel.add(pastEntryButton);
             }
         }
@@ -310,7 +314,9 @@ public class UserInterface {
     void makeGraphWindow(Entry entry) {
         JFrame entryFrame = new JFrame("Entry");
         Color purple = new Color(218, 202, 251);
+        Color darkPurple = Color.decode("#8b51f5");
         entryFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Border purpleBorder = BorderFactory.createLineBorder(purple, 25);
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -321,6 +327,7 @@ public class UserInterface {
         Color green = Color.decode("#72bb53");
         JButton homeButton = new JButton("Home");
         homeButton.setBackground(green);
+        homeButton.setForeground(Color.white);
         homeButton.setOpaque(true);
         homeButton.setPreferredSize(new Dimension(190, 60));
         homeButton.setBorderPainted(false);
@@ -333,13 +340,36 @@ public class UserInterface {
 
         mainPanel.add(homeButton);
 
-        String date = entry.getDate();
+        JPanel headers = new JPanel();
+        headers.setBackground(purple);
 
-        JLabel header = new JLabel(date);
-        header.setMaximumSize(new Dimension(900, 200));
-        header.setMinimumSize(new Dimension(900, 200));
-        header.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mainPanel.add(header);
+        String date = entry.getDate();
+        String distance = entry.getDistanceTravelled();
+        String time = entry.getTimeElapsed();
+
+        JLabel dateLabel = new JLabel(date);
+        dateLabel.setMaximumSize(new Dimension(900, 200));
+        dateLabel.setMinimumSize(new Dimension(900, 200));
+        dateLabel.setForeground(darkPurple);
+        dateLabel.setBorder(purpleBorder);
+
+        JLabel distanceLabel = new JLabel(distance);
+        distanceLabel.setMaximumSize(new Dimension(900, 200));
+        distanceLabel.setMinimumSize(new Dimension(900, 200));
+        distanceLabel.setForeground(darkPurple);
+        distanceLabel.setBorder(purpleBorder);
+
+        JLabel timeLabel = new JLabel(time);
+        timeLabel.setMaximumSize(new Dimension(900, 200));
+        timeLabel.setMinimumSize(new Dimension(900, 200));
+        timeLabel.setForeground(darkPurple);
+        timeLabel.setBorder(purpleBorder);
+
+        headers.add(dateLabel);
+        headers.add(distanceLabel);
+        headers.add(timeLabel);
+
+        mainPanel.add(headers);
 
         for (int i = 0; i < 6; i++) {
             ChartPanel panel1 = Graph.makeGraph(i, entry);
@@ -377,6 +407,7 @@ public class UserInterface {
 
         Color purple = new Color(218, 202, 251);
         Color green = Color.decode("#72bb53");
+        Color darkPurple = Color.decode("#8b51f5");
         Border greenBorder = BorderFactory.createLineBorder(green, 20);
 
         mainPanel.setBackground(green);
@@ -387,15 +418,17 @@ public class UserInterface {
         label1.setBackground(purple);
         label1.setBorder(greenBorder);
         label1.setOpaque(true);
+        label1.setForeground(darkPurple);
 
         JProgressBar bar1 = new JProgressBar(0, (int) distanceGoal.getGoalValue());
-        bar1.setValue((int)distanceGoal.getProgressValue());
+        bar1.setValue((int) distanceGoal.getProgressValue());
         bar1.setBorder(greenBorder);
 
         JLabel value1 = new JLabel(String.valueOf(distanceGoal.getGoalValue()));
         value1.setBackground(purple);
         value1.setOpaque(true);
         value1.setBorder(greenBorder);
+        value1.setForeground(darkPurple);
 
         JSlider slider1 = new JSlider(JSlider.HORIZONTAL, 0, 400, (int) distanceGoal.getGoalValue());
         slider1.addChangeListener(e -> {
@@ -411,17 +444,19 @@ public class UserInterface {
         label2.setBackground(purple);
         label2.setBorder(greenBorder);
         label2.setOpaque(true);
+        label2.setForeground(darkPurple);
 
         JProgressBar bar2 = new JProgressBar(0, (int) elevationGoal.getGoalValue());
-        bar2.setValue((int)elevationGoal.getProgressValue());
+        bar2.setValue((int) elevationGoal.getProgressValue());
         bar2.setBorder(greenBorder);
 
         JLabel value2 = new JLabel(String.valueOf(elevationGoal.getGoalValue()));
         value2.setBackground(purple);
         value2.setOpaque(true);
         value2.setBorder(greenBorder);
+        value2.setForeground(darkPurple);
 
-        JSlider slider2 = new JSlider(JSlider.HORIZONTAL, 0, 500, (int) elevationGoal.getGoalValue());
+        JSlider slider2 = new JSlider(JSlider.HORIZONTAL, 0, 2000, (int) elevationGoal.getGoalValue());
         slider2.addChangeListener(e -> {
             int value = slider2.getValue();
             elevationGoal.setGoalValue(value);
@@ -435,15 +470,17 @@ public class UserInterface {
         label3.setBackground(purple);
         label3.setBorder(greenBorder);
         label3.setOpaque(true);
+        label3.setForeground(darkPurple);
 
         JProgressBar bar3 = new JProgressBar(0, (int) timeGoal.getGoalValue());
-        bar3.setValue((int)timeGoal.getProgressValue());
+        bar3.setValue((int) timeGoal.getProgressValue());
         bar3.setBorder(greenBorder);
 
         JLabel value3 = new JLabel(String.valueOf(timeGoal.getGoalValue()));
         value3.setBackground(purple);
         value3.setOpaque(true);
         value3.setBorder(greenBorder);
+        value3.setForeground(darkPurple);
 
         JSlider slider3 = new JSlider(JSlider.HORIZONTAL, 0, 30, (int) timeGoal.getGoalValue());
         slider3.addChangeListener(e -> {
@@ -459,15 +496,17 @@ public class UserInterface {
         label4.setBackground(purple);
         label4.setBorder(greenBorder);
         label4.setOpaque(true);
+        label4.setForeground(darkPurple);
 
         JProgressBar bar4 = new JProgressBar(0, (int) setDaysGoal.getGoalValue());
-        bar4.setValue((int)setDaysGoal.getProgressValue());
+        bar4.setValue((int) setDaysGoal.getProgressValue());
         bar4.setBorder(greenBorder);
 
         JLabel value4 = new JLabel(String.valueOf(setDaysGoal.getGoalValue()));
         value4.setBackground(purple);
         value4.setOpaque(true);
         value4.setBorder(greenBorder);
+        value4.setForeground(darkPurple);
 
         JSlider slider4 = new JSlider(JSlider.HORIZONTAL, 0, 30, (int) setDaysGoal.getGoalValue());
         slider4.addChangeListener(e -> {
@@ -480,20 +519,25 @@ public class UserInterface {
         JLabel goalsLabel = new JLabel("Goals");
         goalsLabel.setBackground(green);
         goalsLabel.setBorder(greenBorder);
+        goalsLabel.setForeground(Color.white);
         JLabel adjustLabel = new JLabel("Adjust");
         adjustLabel.setBackground(green);
         adjustLabel.setBorder(greenBorder);
+        adjustLabel.setForeground(Color.white);
         JLabel progressLabel = new JLabel("Progress");
         progressLabel.setBackground(green);
         progressLabel.setBorder(greenBorder);
+        progressLabel.setForeground(Color.white);
         JLabel valueLabel = new JLabel("Value");
-        progressLabel.setBackground(green);
-        progressLabel.setBorder(greenBorder);
+        valueLabel.setBackground(green);
+        valueLabel.setBorder(greenBorder);
+        valueLabel.setForeground(Color.white);
 
         JButton homeButton = new JButton("Home");
         homeButton.setBackground(purple);
         homeButton.setOpaque(true);
         homeButton.setBorder(greenBorder);
+        homeButton.setForeground(darkPurple);
 
         //action listener to home button
         homeButton.addActionListener(e -> {

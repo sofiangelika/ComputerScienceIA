@@ -13,6 +13,6 @@ public class ElevationGoal extends Goal{
     }
 
     String getGoalString() {
-        return "<html>" + "  Reach an elevation gain of " + goalValue + "<br>" + " kilometers" + "</html>";
+        return "<html>" + "  Reach an elevation gain of " + goalValue + "<br>" + " meters" + "</html>";
     }
 }

@@ -55,7 +55,6 @@ public class GoalManager {
         //Distance goal
         int colLength = data[0].length;
         double distanceTravelled = data[2][colLength - 1] / 1000; //get distance travelled in km
-
         DistanceGoal distanceGoal = (DistanceGoal) goals[0];
         distanceGoal.updateProgress(distanceTravelled);
 
@@ -65,16 +64,15 @@ public class GoalManager {
             if (value > maxElevation)
                 maxElevation = value;
         }
-
+        double finalElevation = maxElevation - data[4][0];
         ElevationGoal elevationGoal = (ElevationGoal) goals[1];
-        elevationGoal.updateProgress(maxElevation);
+        elevationGoal.updateProgress(finalElevation);
 
         //Time goal
         double startTime = data[6][0];
         double endTime = data[6][colLength - 1];
         double seconds = endTime - startTime;
         double hours = seconds / 3600;
-
         TimeGoal timeGoal = (TimeGoal) goals[2];
         timeGoal.updateProgress(hours);
 
